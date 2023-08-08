@@ -16,8 +16,7 @@ class AddProduct(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),nullable=False)
     category = db.relationship('Category',backref=db.backref('posts', cascade="all, delete-orphan",lazy=True))
 
-    # image_name = db.Column(db.String(150), nullable=True, default='image.jpg')
-    # image = db.Column(db.String(150), nullable=True, default='image.jpg')
+    image = db.Column(db.String(150), nullable=True)
     # image_2 = db.Column(db.String(150), nullable=False, default='image.jpg')
     # image_3 = db.Column(db.String(150), nullable=False, default='image.jpg')
 

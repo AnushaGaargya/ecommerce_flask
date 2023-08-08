@@ -1,8 +1,13 @@
-from flask import redirect,render_template,url_for,flash,request,session
+from flask import redirect,render_template,url_for,flash,request,session, current_app
 from store import db, app
 from .models import Category, AddProduct
 from .forms import Addproducts
+from werkzeug.utils import secure_filename
+import os
+import uuid as uuid
 
+UPLOAD_FOLDER = '/users/anusha/Desktop/Flask Projects/Final_Project/store/static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # @app.route('/addbrand', methods=['GET', 'POST'])
 # def addbrand():
 #     if request.method == 'POST':
@@ -13,6 +18,30 @@ from .forms import Addproducts
 #         db.session.commit()
 #         return redirect(url_for('addbrand'))
 #     return render_template('products/addbrand.html',brands='brands')
+
+
+@app.route('/proddisplay')
+def home():
+    products = AddProduct.query.filter(AddProduct.stock > 0)
+    # categories = Category.query.all()
+    categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()
+    return render_template('products/index.html', products=products, categories=categories)
+
+@app.route('/product/<int:id>')
+def single_page(id):
+    product = AddProduct.query.get_or_404(id)
+    categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()
+    return render_template('products/single_page.html',product=product, categories=categories)
+
+
+
+
+@app.route('/category/<int:id>')
+def get_category(id):
+    category = AddProduct.query.filter_by(category_id=id)
+    categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()
+    return render_template('products/index.html', category=category, categories=categories)
+
 
 @app.route('/addcat', methods=['GET', 'POST'])
 def addcat():
@@ -73,11 +102,19 @@ def addproduct():
         desc = form.description.data
         mftr_date = form.mftr_date.data
         exp_date = form.exp_date.data
-        
-
         category = request.form.get('category')
-        addpro = AddProduct(name=name,price=price,stock=stock,desc=desc,mftr_date=mftr_date,exp_date=exp_date,category_id=category)
-     
+        image_1 = request.files['image_1']
+      
+
+
+        image_name = secure_filename(image_1.filename)
+        image_uuid = str(uuid.uuid1()) + "_" + image_name
+          #save the image
+        image_1.save(os.path.join(app.config['UPLOAD_FOLDER'],image_uuid))
+        
+        #change it to string to save to db
+        image_1 = image_uuid
+        addpro = AddProduct(name=name,price=price,stock=stock,desc=desc,mftr_date=mftr_date,exp_date=exp_date,category_id=category,image=image_1)
         db.session.add(addpro)
         flash(f'The product {name} has been added to your db', 'success')
         db.session.commit()
@@ -101,6 +138,20 @@ def updateproduct(id):
         product.desc = form.description.data 
         product.mftr_date = form.mftr_date.data 
         product.exp_date = form.exp_date.data 
+        # product.image = form.image_1
+        if request.files.get('image_1'):
+        #     os.unlink(os.path.join(current_app.root_path,"static/images/" + product.image))
+            image_1 = request.files['image_1']
+            image_name = secure_filename(image_1.filename)
+            image_uuid = str(uuid.uuid1()) + "_" + image_name
+            #save the image
+            image_1.save(os.path.join(app.config['UPLOAD_FOLDER'],image_uuid))
+            
+            #change it to string to save to db
+            image_1 = image_uuid
+            product.image = image_1
+            print(product.image)                
+            
         db.session.commit()
         flash('Product has been updated', 'success')
         return redirect('/')
@@ -111,7 +162,7 @@ def updateproduct(id):
     form.description.data = product.desc
     form.mftr_date.data = product.mftr_date
     form.exp_date.data = product.exp_date
-    
+    # form.image_1 = product.image
     
     return render_template('products/updateproduct.html', form=form, categories=categories,product=product)
    

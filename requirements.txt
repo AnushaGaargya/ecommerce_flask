@@ -6,7 +6,8 @@ dnspython==2.4.1
 email-validator==2.0.0.post2
 Flask==2.3.2
 Flask-Bcrypt==1.0.1
-Flask-Reuploaded==1.3.0
+Flask-Login==0.6.2
+flask-msearch==0.2.9.2
 Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
 idna==3.4
