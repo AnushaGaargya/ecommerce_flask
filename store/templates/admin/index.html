@@ -1,6 +1,9 @@
 {% extends 'layout.html'%}
 {%block content%}
 {% include '_messages.html'%}
+<body>
+  
+
 <div class="container">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -16,7 +19,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/categories">Categories</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>
               </li>
               <li class="nav-item dropdown">
@@ -28,11 +31,15 @@
                   <li><a class="dropdown-item" href="#">Another action</a></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
       </nav>
+</div>
+
+<div class="container">
+  <a href="{{url_for('addproduct')}}" class="btn btn-sm btn-outline-info">Add Product</a>
 </div>
 
 <div class="container">
@@ -101,5 +108,12 @@
 
     </table>
 </div>
-
+</body>
 {% endblock content%}
+
+
+<style>
+  body{
+    background-color: black;
+  }
+</style>

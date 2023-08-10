@@ -1,5 +1,5 @@
 from flask import redirect,render_template,url_for,flash,request,session, current_app
-from store import db, app
+from store import db, app, bcrypt
 from .models import Category, AddProduct
 from .forms import Addproducts
 from werkzeug.utils import secure_filename
@@ -177,3 +177,4 @@ def deleteproduct(id):
         return redirect(url_for('admin'))
     flash(f'Category {product.name} cannot be deleted', 'warning')
     return redirect(url_for('admin'))
+

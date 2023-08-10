@@ -19,8 +19,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 
-db  = SQLAlchemy(app) 
+db  = SQLAlchemy(app)
 app.app_context().push()
+
+
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
