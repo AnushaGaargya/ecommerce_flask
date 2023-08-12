@@ -156,6 +156,7 @@ def checkout():
                 product.stock = int(product.stock) - int(item['quantity'])
                 print(product.stock)
                 db.session.commit()
+                flash('Items checked out. Continue Shopping...')
                 return redirect(url_for('clearcart'))
             
         except Exception as e:

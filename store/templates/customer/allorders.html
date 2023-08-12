@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container mt-4">
+    {% include '_messages.html'%}
+    <div class="row">
+        <div class="col-md-12">
+           
+        <table class="table table-sm" style="border-radius: 20px;">
+            <thead>
+              
+                <th>Invoice</th> 
+                <th>Order Date</th>
+                <th>Order Details</th>
+                <!-- <th>Product Price</th>
+                <th>Quantity</th>
+                <th>Total Amount</th> -->
+                <!-- <th>Total Amount</th> -->
+                
+            </thead>
+            <tbody>
+                <!-- for i in orders:
+                print(i.orders)
+                for _key, product in i.orders.items():
+                    print(f"{i.invoice}-{product['name']}-{product['price']}-{float(product['price']) * int(product['quantity'])}")
+            #         print(product['quantity']) -->
+
+                {% for i in orders %}
+        
+
+                <tr>
+                    
+                    <td>{{i.invoice}}</td>
+                   
+                    <td>{{i.date_created.strftime('%Y-%m-%d')}}</td>
+                    <td><a href="{{url_for('orders',invoice=invoice)}}">Order Details</a></td>
+    
+              
+                 
+                   
+                </tr>
+                {% endfor %}
+       
+   
+            
+            </tbody>
+        </table>
+          
+           
+         
+            </div>
+        </div>
+
+</div>
+</div>
+{% endblock content  %}
+

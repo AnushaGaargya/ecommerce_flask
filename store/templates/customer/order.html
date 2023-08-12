@@ -6,6 +6,16 @@
     {% include '_messages.html'%}
     <div class="row">
         <div class="col-md-12">
+            Invoice: {{orders.invoice}}
+            <br>
+            Status: {{orders.status}}
+            <br>
+            Customer Name: {{customer.name}}
+            <br>
+            Customer Email: {{customer.email}}
+            <br>
+            Customer Contact: {{customer.contact}}
+            <br>
         <table class="table table-sm" style="border-radius: 20px;">
             <thead>
               
@@ -14,12 +24,11 @@
                 <th>Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Subtotal</th>
-                <th>Update</th>
-                <th>Remove</th>
+                <th>Total Amount</th>
+                
             </thead>
             <tbody>
-                {% for key,product in session['Shoppingcart'].items() %}
+                {% for key,product in orders.orders.items() %}
 
                 <tr>
                     
@@ -28,15 +37,15 @@
                     <td>{{product.name}}</td>
                 <form action="{{url_for('updatecart', code=key)}}" method="POST">
                     
-                    <td>{{product.price}}</td>
-                    <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
+                    <td>Rs {{product.price}}</td>
+                    <td>{{product.quantity}}</td>
                     
-                    {% set subtotal = product.quantity|int * product.price|float %}
-                    <td>{{subtotal}}</td>
-                    <td><button type="submit" class="btn btn-sm btn-info">Update</button></td>
-                    <input type="hidden" name="check_route" value="false">
+                    {% set subTotal = product.quantity|int * product.price|float %}
+                    <td>Rs {{subTotal}}</td>
+                    
+                   
                 </form>
-                    <td><a type="submit" href="{{url_for('deleteitem', id=key)}}" class="btn btn-sm btn-danger">Remove</a></td>
+                   
                    
                 </tr>
                 {% endfor %}
@@ -48,9 +57,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Total: {{grandtotal}}</td>
-                    <td></td>
-                    <td></td>
+                    <td>Total: {{grandTotal}}</td>
+                    
                     <!-- <td><a class="btn btn-success" href="/proddisplay">Check Out</a>
                     <a href="{{url_for('clearcart')}}" class="btn btn-sm btn-danger float-right">Clear Cart</a></td> -->
                     
@@ -59,8 +67,8 @@
         </table>
             <div class="custom-buttons float-right" style="text-align: right;">
             <!-- <a class="btn btn-sm btn-success" href="/proddisplay">Check Out</a> -->
-            <a class="btn btn-sm btn-success" href="{{url_for('get_order')}}">Order now</a>
-            <a href="{{url_for('clearcart')}}" class="btn btn-sm btn-danger float-right">Clear Cart</a>
+           
+         
             </div>
         </div>
 
