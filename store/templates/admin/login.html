@@ -2,14 +2,14 @@
 
 {% block content %}
 
-
+<div class="custom">
 <div class="container">
     {% from "_formhelpers.html" import render_field %}
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
             {% include '_messages.html'%}
-    <div class="text-center h1 text-white bg-primary p-2">Login</div>
+            <h2 class="bg-info text-center">Admin Login</h2>
     <form method="post" enctype="multipart/form-data">
         <div>
             {{ render_field(form.email, class="form-control") }}
@@ -22,4 +22,9 @@
 
 </div>
 </div>
+</div>
+
 {% endblock content %}
+
+
+

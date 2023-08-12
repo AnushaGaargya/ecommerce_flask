@@ -2,42 +2,6 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<!-- navbar starts -->
-<!-- <div class="container">
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{{url_for('home')}}">Home</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{url_for('home')}}">All products</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Categories
-            </a>
-            <ul class="dropdown-menu">
-            {% for category in categories %}
-              <li><a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" tabindex="-1">Cart ({{session['Shoppingcart']|length}})</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-</div> -->
-<!-- nav bar ends -->
 
 <div class="container">
     <div class="row">
@@ -52,6 +16,7 @@
                     <div class="card-footer">
                         <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
                         <a href="#" class="float-right btn btn-sm btn-warning">Add to Cart</a>
+                        
                     </div>
                 </div>
             </div>
@@ -60,13 +25,14 @@
             {% for product in products %}
             <div class="col-md-3 mt-3">
                 <div class="card">
-                    <img src="{{url_for('static', filename='images/' + product.image)}}" alt="{product.name}}" class="card-img-top" height="200">
+                    <img src="{{url_for('static', filename='images/' + product.image)}}" alt="{{product.name}}" class="card-img-top" height="200">
                     <div class="card-body"></div>
                         <h5 class="text-center">{{product.name}}</h5>
                         <p class="text-center">Price: Rs {{product.price}}</p>
                     <div class="card-footer">
                         <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
                         <a href="#" class="float-right btn btn-sm btn-warning">Add to Cart</a>
+                      
                     </div>
                 </div>
             </div>
@@ -91,9 +57,12 @@
                 <input type="hidden" name="product_id" value="{{product.id}}">
                 <button type="submit" class="btn btn-sm btn-warning">Add to Cart</button>
                 <label for="">Quantity:</label>
-                <input type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                <input type="number" name="quantity" id="" value="1" max="{{product.stock}}">
+                <input type="hidden" name="check_route" value="true">
+                <input type="hidden" name="stock" value="{{product.stock}}">
         
             </form>
+            <p>Note: There are only {{product.stock}} units of this product in stock.</p>
         </div>
     </div>
 </div>

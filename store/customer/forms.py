@@ -19,15 +19,14 @@ class CustomerRegisterForm(FlaskForm):
     # profile = FileField('Profile', validators=[file_allowed(['jpg', 'png', 'jpeg', 'gif'], 'Image only')])
     submit = SubmitField('Register')
 
-    # def validate_username(self, username):
-        
-    #     if Register.query.filter_by(username=username.data).first():
-    #         raise ValidationError('This username is already in use')
-        
-    # def validate_email(self, email):
-     
-    #     if Register.query.filter_by(email=email.data).first():
-    #         raise ValidationError('This email is already in use')
+    def validate_username(self, username):   
+        if Register.query.filter_by(username=username.data).first():
+            raise ValidationError('This username is already in use')
+
+
+    def validate_email(self, email):
+        if Register.query.filter_by(email=email.data).first():
+            raise ValidationError('This email is already in use')
         
 
 class CustomerLoginForm(FlaskForm):

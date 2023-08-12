@@ -32,6 +32,7 @@ def customerLogin():
     # if request.method == 'POST':
     if form.validate_on_submit():
         user = Register.query.filter_by(email=form.email.data).first()
+        session['email'] = user.email
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('You are logged in now', 'success')

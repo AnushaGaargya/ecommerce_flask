@@ -6,20 +6,14 @@ import os
 from store.products.models import AddProduct,Category
 
 
-# @app.route('/',  methods=['GET', 'POST'])
-# def home():
-#     return render_template('admin/index.html',title='Admin Page')
-
 @app.route('/')
 def admin():
     if 'email' not in session:
         flash('Please login first', 'danger')
         return redirect(url_for('login'))
     products = AddProduct.query.all()
-    # if 'email' in session:
-    #     email = session['email']
-    #     print(email)
     return render_template('admin/index.html', title='Admin Page', products=products)
+
 
 @app.route('/categories')
 def categories():
@@ -44,6 +38,7 @@ def register():
     # return render_template('register.html', form=form)
     return render_template('admin/register.html', form=form, title="Register User")
 
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm(request.form)
@@ -59,3 +54,9 @@ def login():
             flash('Wrong password, please try again', 'danger')
 
     return render_template('admin/login.html', form=form, title='Login Page')
+
+
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+    session.pop(key="email")
+    return redirect(url_for('login'))

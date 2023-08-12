@@ -6,7 +6,7 @@
     {% include '_messages.html'%}
     <div class="row">
         <div class="col-md-12">
-        <table class="table table-sm">
+        <table class="table table-sm" style="border-radius: 20px;">
             <thead>
               
                 <th>Sr</th> 
@@ -20,38 +20,49 @@
             </thead>
             <tbody>
                 {% for key,product in session['Shoppingcart'].items() %}
+
                 <tr>
                     
                     <td>{{loop.index}}</td>
                     <td><img src="{{url_for('static',filename='images/' + product.image)}}" alt="" width="50" height="50"></td>
                     <td>{{product.name}}</td>
                 <form action="{{url_for('updatecart', code=key)}}" method="POST">
-                      
+                    
                     <td>{{product.price}}</td>
                     <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
                     
                     {% set subtotal = product.quantity|int * product.price|float %}
                     <td>{{subtotal}}</td>
                     <td><button type="submit" class="btn btn-sm btn-info">Update</button></td>
+                    <input type="hidden" name="check_route" value="false">
                 </form>
                     <td><a type="submit" href="{{url_for('deleteitem', id=key)}}" class="btn btn-sm btn-danger">Remove</a></td>
-                    <td></td>
-                    <td></td> 
+                   
                 </tr>
                 {% endfor %}
                 <tr>
                     
-                    <td colspan="1"><a class="btn btn-success" href="/proddisplay">Check Out</a></td>
+                    
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td colspan="5">Total: {{grandtotal}}</td>
-                    <td><a href="{{url_for('clearcart')}}" class="btn btn-sm btn-danger float-right">Clear Cart</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total: {{grandtotal}}</td>
+                    <td></td>
+                    <td></td>
+                    <!-- <td><a class="btn btn-success" href="/proddisplay">Check Out</a>
+                    <a href="{{url_for('clearcart')}}" class="btn btn-sm btn-danger float-right">Clear Cart</a></td> -->
                     
                 </tr>
             </tbody>
         </table>
-    </div>
+            <div class="custom-buttons float-right" style="text-align: right;">
+            <!-- <a class="btn btn-sm btn-success" href="/proddisplay">Check Out</a> -->
+            <a class="btn btn-sm btn-success" href="{{url_for('checkout')}}">Check Out</a>
+            <a href="{{url_for('clearcart')}}" class="btn btn-sm btn-danger float-right">Clear Cart</a>
+            </div>
+        </div>
 
 </div>
 </div>

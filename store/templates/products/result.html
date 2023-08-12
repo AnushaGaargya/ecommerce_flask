@@ -1,42 +1,36 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h3 style="margin-left: 450px;">Welcome to the store! </h3>
+
 {% include 'navbar.html' %}
 <div class="container">
     <div class="row">
         {% if category %}
             {% for c in category %}
             <div class="col-md-3 mt-3">
-                <div class="card" style="border-radius: 10px;">
-                    <img src="{{url_for('static', filename='images/' + c.image)}}" alt="{{c.name}}" class="card-img-top" height="200">
-                    <div class="card-body">
+                <div class="card">
+                    <img src="{{url_for('static', filename='images/' + c.image)}}" alt="{c.name}}" class="card-img-top" height="200">
+                    <div class="card-body"></div>
                         <h5 class="text-center">{{c.name}}</h5>
                         <p class="text-center">Price: Rs {{c.price}}</p>
-                    </div>
                     <div class="card-footer">
-                        <div class="custom" style="display: flex;">
-                       
-                        <a href="{{url_for('single_page', id=c.id)}}" class="btn btn-sm btn-primary">Details</a>
-                     
+                        <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
                         <form action="{{url_for('AddCart')}}" method="POST">
                             <input type="hidden" name="product_id" value="{{c.id}}">
-                            <button type="submit" class="btn btn-sm btn-warning ">Add to Cart</button>
+                            <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                             <input type="hidden" name="quantity" id="" value="1" min="1" max="{{c.stock}}">
-                            <input type="hidden" name="check_route" value="false">
-                        </form> 
+                        
+                        </form>
+
                     </div>
-                            
-                    </div>
-                    
                 </div>
             </div>
             {% endfor %}
         {% else %}
             {% for product in products %}
             <div class="col-md-3 mt-3">
-                <div class="card" style="border-radius: 10px;">
-                    <img src="{{url_for('static', filename='images/' + product.image)}}" alt="{{product.name}}" class="card-img-top" height="200">
+                <div class="card">
+                    <img src="{{url_for('static', filename='images/' + product.image)}}" alt="{product.name}}" class="card-img-top" height="200">
                     <div class="card-body">
                         <h5 class="text-center">{{product.name}}</h5>
                         <p class="text-center">Price: Rs {{product.price}}</p>
@@ -60,10 +54,3 @@
 </div>
 
 {% endblock content %}
-
-
-<style>
-    .button-container {
-  display: flex;
-}
-</style>

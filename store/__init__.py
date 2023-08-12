@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_msearch import Search
 
 # from werkzeug.utils import secure_filename
 
@@ -17,13 +18,13 @@ app.config['SECRET_KEY']= 'abcde'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 # app.config['UPLOAD_FOLDER']  = os.path.join(basedir, 'static/images')
 
-
-
 db  = SQLAlchemy(app)
 app.app_context().push()
 
 
 bcrypt = Bcrypt(app)
+search1 = Search()
+search1.init_app(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

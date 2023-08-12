@@ -1,5 +1,5 @@
 from flask import redirect,render_template,url_for,flash,request,session, current_app
-from store import db, app, bcrypt
+from store import db, app, bcrypt, search1
 from .models import Category, AddProduct
 from .forms import Addproducts
 from werkzeug.utils import secure_filename
@@ -8,16 +8,6 @@ import uuid as uuid
 
 UPLOAD_FOLDER = '/users/anusha/Desktop/Flask Projects/Final_Project/store/static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# @app.route('/addbrand', methods=['GET', 'POST'])
-# def addbrand():
-#     if request.method == 'POST':
-#         getbrand = request.form.get('brand')
-#         brand = Brand(name=getbrand)
-#         db.session.add(brand)
-#         flash(f'The Brand {getbrand} was added to your database', 'success')
-#         db.session.commit()
-#         return redirect(url_for('addbrand'))
-#     return render_template('products/addbrand.html',brands='brands')
 
 
 @app.route('/proddisplay')
@@ -27,13 +17,19 @@ def home():
     categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()
     return render_template('products/index.html', products=products, categories=categories)
 
+@app.route('/result')
+def result():
+    searchword = request.args.get('q') 
+    products = AddProduct.query.msearch(searchword, fields=['name','desc'],limit=3)
+    categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()  
+    return render_template('products/result.html', products=products,categories=categories)
+
+
 @app.route('/product/<int:id>')
 def single_page(id):
     product = AddProduct.query.get_or_404(id)
     categories = Category.query.join(AddProduct,(Category.id == AddProduct.category_id)).all()
     return render_template('products/single_page.html',product=product, categories=categories)
-
-
 
 
 @app.route('/category/<int:id>')
@@ -104,9 +100,6 @@ def addproduct():
         exp_date = form.exp_date.data
         category = request.form.get('category')
         image_1 = request.files['image_1']
-      
-
-
         image_name = secure_filename(image_1.filename)
         image_uuid = str(uuid.uuid1()) + "_" + image_name
           #save the image
@@ -163,7 +156,6 @@ def updateproduct(id):
     form.mftr_date.data = product.mftr_date
     form.exp_date.data = product.exp_date
     # form.image_1 = product.image
-    
     return render_template('products/updateproduct.html', form=form, categories=categories,product=product)
    
    
