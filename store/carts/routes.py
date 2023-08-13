@@ -16,7 +16,8 @@ def AddCart():
         product_id = request.form.get('product_id')
         check_route = request.form.get('check_route')
         product_stock = request.form.get('stock')
-        quantity = request.form.get('quantity')
+        qty = request.form.get('quantity')
+        quantity = int(qty)
         products = AddProduct.query.all()
         product = AddProduct.query.filter_by(id=product_id).first()
         # print(products)
@@ -73,7 +74,8 @@ def getCart():
     subtotal = 0
     grandtotal = 0
     for key,product in session['Shoppingcart'].items():
-        subtotal += float(product['price']) * int(product['quantity'])
+        print(product)
+        subtotal += (float(product['price']) * int(product['quantity']))
         grandtotal = subtotal 
     return render_template('products/carts.html', grandtotal=grandtotal, categories=categories)
 

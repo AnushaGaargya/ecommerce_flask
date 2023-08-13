@@ -27,7 +27,7 @@
                 <a class="nav-link active" tabindex = "-1" href="{{url_for('getCart')}}">Cart ({{session['Shoppingcart']|length}})</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" tabindex = "-1" href="{{url_for('allorders', cust=customer_id)}}">Orders</a>
+                <a class="nav-link active" tabindex = "-1" href="{{url_for('allorders')}}">Orders</a>
               </li>
 
               {% if current_user.is_authenticated %}
