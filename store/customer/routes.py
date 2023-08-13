@@ -51,6 +51,7 @@ def customer_logout():
     logout_user()
     return redirect(url_for('customerLogin'))
 
+
 @app.route('/getorder')
 @login_required
 def get_order():
@@ -77,7 +78,8 @@ def get_order():
             print(e)
             flash('Something went wrong')
             return redirect(url_for('getCart'))
-        
+
+
 @app.route('/orders/<invoice>')
 @login_required
 def orders(invoice):
@@ -95,16 +97,13 @@ def orders(invoice):
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal, customer=customer,orders=orders)
 
+
 @app.route('/allorders')
 @login_required
 def allorders():
-
     if current_user.is_authenticated:
         customer = current_user.id 
         orders = CustomerOrder.query.filter_by(customer_id=customer).all()
-        print(orders)
-        print(type(orders))
-        print(len(orders))
         return render_template('customer/allorders.html',orders=orders)
     else:
         return redirect(url_for('customerLogin'))

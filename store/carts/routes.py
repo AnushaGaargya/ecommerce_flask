@@ -135,31 +135,31 @@ def empty_cart():
         print(e)
 
 
-@app.route('/checkout')
-def checkout():
-    #check if the customer is logged in(when the customer is logged in, the session will have a variable 'email')
-    #if customer has not logged in, redirect to the login page
-    if 'email' not in session:
-        print("not in session")
-        flash('Please login first', 'danger')
-        return redirect(url_for('customerLogin'))
-    #if customer has logged in, update the stock in the db, by subtracting the quantity of each product checked out.    
-    else:
-        print("in session")
-        try:
-            # session.modified = True
-            for key, item in session['Shoppingcart'].items():
-                # item['stock'] = item['stock'] - item['quantity']
-                product = AddProduct.query.get(int(key))
-                print(product)
-                print(product.stock)
-                product.stock = int(product.stock) - int(item['quantity'])
-                print(product.stock)
-                db.session.commit()
-                flash('Items checked out. Continue Shopping...')
-                return redirect(url_for('clearcart'))
+# @app.route('/checkout')
+# def checkout():
+#     #check if the customer is logged in(when the customer is logged in, the session will have a variable 'email')
+#     #if customer has not logged in, redirect to the login page
+#     if 'email' not in session:
+#         print("not in session")
+#         flash('Please login first', 'danger')
+#         return redirect(url_for('customerLogin'))
+#     #if customer has logged in, update the stock in the db, by subtracting the quantity of each product checked out.    
+#     else:
+#         print("in session")
+#         try:
+#             # session.modified = True
+#             for key, item in session['Shoppingcart'].items():
+#                 # item['stock'] = item['stock'] - item['quantity']
+#                 product = AddProduct.query.get(int(key))
+#                 print(product)
+#                 print(product.stock)
+#                 product.stock = int(product.stock) - int(item['quantity'])
+#                 print(product.stock)
+#                 db.session.commit()
+#                 flash('Items checked out. Continue Shopping...')
+#                 return redirect(url_for('clearcart'))
             
-        except Exception as e:
-            print(e)
+#         except Exception as e:
+#             print(e)
 
 

@@ -25,16 +25,16 @@
                 for _key, product in i.orders.items():
                     print(f"{i.invoice}-{product['name']}-{product['price']}-{float(product['price']) * int(product['quantity'])}")
             #         print(product['quantity']) -->
-
+                <input type="hidden" value="true" name="allorders">
                 {% for i in orders %}
         
 
                 <tr>
-                    
                     <td>{{i.invoice}}</td>
                    
                     <td>{{i.date_created.strftime('%Y-%m-%d')}}</td>
-                    <td><a href="{{url_for('orders',invoice=invoice)}}">Order Details</a></td>
+                    <td><a href="{{url_for('orders', invoice=i.invoice)}}">Order Details</a></td>
+                
     
               
                  
